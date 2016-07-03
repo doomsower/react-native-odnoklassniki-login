@@ -44,3 +44,5 @@ jspm_packages
 /example/.vscode/
 /example/android/build/
 /example/android/app/build/
+/example/ios/Podfile.lock
+/example/ios/Pods/
