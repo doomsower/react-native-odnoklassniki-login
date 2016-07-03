@@ -18,6 +18,7 @@ import org.json.JSONObject;
 
 import ru.ok.android.sdk.Odnoklassniki;
 import ru.ok.android.sdk.OkListener;
+import ru.ok.android.sdk.OkRequestMode;
 import ru.ok.android.sdk.Shared;
 import ru.ok.android.sdk.util.OkAuthType;
 
@@ -58,7 +59,8 @@ public class RNOdnoklassnikiModule extends ReactContextBaseJavaModule implements
         odnoklassniki.checkValidTokens(new OkListener() {
             @Override
             public void onSuccess(JSONObject json) {
-                loginPromise.resolve(getOKResult(json));
+                Log.d(LOG, "Check valid token success");
+                resolveWithCurrentUser(json.optString(Shared.PARAM_ACCESS_TOKEN), json.optString(Shared.PARAM_SESSION_SECRET_KEY));
             }
 
             @Override
@@ -76,24 +78,6 @@ public class RNOdnoklassnikiModule extends ReactContextBaseJavaModule implements
         promise.resolve(null);
     }
 
-    @ReactMethod
-    public void isLoggedIn(final Promise promise) {
-        Log.d(LOG, "Is logged in check");
-        odnoklassniki.checkValidTokens(new OkListener() {
-            @Override
-            public void onSuccess(JSONObject json) {
-                Log.d(LOG, "Is logged in");
-                promise.resolve(getOKResult(json));
-            }
-
-            @Override
-            public void onError(String error) {
-                Log.d(LOG, "Is not logged in");
-                promise.resolve(null);
-            }
-        });
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (Odnoklassniki.getInstance().isActivityRequestOAuth(requestCode)) {
@@ -107,41 +91,34 @@ public class RNOdnoklassnikiModule extends ReactContextBaseJavaModule implements
             @Override
             public void onSuccess(final JSONObject json) {
                 Log.d(LOG, "Activity auth success");
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            //Do as "odnoklassniki.checkValidTokens" does
-                            String userId = odnoklassniki.request("users.getLoggedInUser", "get");
-                            Log.d(LOG, "User id found: " + userId);
-                            if (userId != null && userId.length() > 2 && TextUtils.isDigitsOnly(userId.substring(1, userId.length() - 1))) {
-                                json.put(Shared.PARAM_LOGGED_IN_USER, userId);
-                                loginPromise.resolve(getOKResult(json));
-                            } else
-                                loginPromise.reject(E_GET_USER_FAILED, "users.getLoggedInUser returned bad value: " + userId);
-                        } catch (Exception e) {
-                            loginPromise.reject(E_GET_USER_FAILED, "users.getLoggedInUser failed: " + e.getLocalizedMessage());
-                        }
-                    }
-                }).start();
+                resolveWithCurrentUser(json.optString(Shared.PARAM_ACCESS_TOKEN), json.optString(Shared.PARAM_SESSION_SECRET_KEY));
             }
 
             @Override
             public void onError(String error) {
-                Log.e(LOG, "OK Oauth error " + error);
+                Log.d(LOG, "OK Oauth error " + error);
                 loginPromise.reject(E_LOGIN_ERROR, error);
             }
         };
     }
 
-    private WritableMap getOKResult(JSONObject json){
-        WritableMap result = Arguments.createMap();
-        result.putString(Shared.PARAM_ACCESS_TOKEN, json.optString(Shared.PARAM_ACCESS_TOKEN));
-        result.putString(Shared.PARAM_SESSION_SECRET_KEY, json.optString(Shared.PARAM_SESSION_SECRET_KEY));
-        //Unquote user id
-        result.putString(Shared.PARAM_LOGGED_IN_USER, json.optString(Shared.PARAM_LOGGED_IN_USER).replaceAll("\"", ""));
-        result.putInt(Shared.PARAM_EXPIRES_IN, json.optInt(Shared.PARAM_EXPIRES_IN));
-        return result;
+    private void resolveWithCurrentUser(final String accessToken, final String sessionSecretKey){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String userStr = odnoklassniki.request("users.getCurrentUser", "get");
+                    JSONObject user = new JSONObject(userStr);
+                    WritableMap result = Arguments.createMap();
+                    result.putString(Shared.PARAM_ACCESS_TOKEN, accessToken);
+                    result.putString(Shared.PARAM_SESSION_SECRET_KEY, sessionSecretKey);
+                    result.putMap("user", JSONUtil.convertMap(user));
+                    loginPromise.resolve(result);
+                } catch (Exception e) {
+                    loginPromise.reject(E_GET_USER_FAILED, "users.getLoggedInUser failed: " + e.getLocalizedMessage());
+                }
+            }
+        }).start();
     }
 
 }

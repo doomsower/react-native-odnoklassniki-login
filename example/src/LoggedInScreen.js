@@ -12,10 +12,9 @@ export default class LoggedInScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <DataRow data={this.props.auth} field="logged_in_user"/>  
+        <DataRow data={this.props.auth} field="user"/>  
         <DataRow data={this.props.auth} field="access_token"/>  
         <DataRow data={this.props.auth} field="session_secret_key"/>  
-        <DataRow data={this.props.auth} field="expires_in"/>
         <Button style={styles.button} onPress={this.onLogout}>Log out</Button>
       </View>
     );
@@ -37,13 +36,16 @@ class DataRow extends Component {
   };
 
   render() {
+    let value = this.props.data[this.props.field];
+    if (typeof value === 'object')
+      value = JSON.stringify(value);
     return (
       <View style={styles.dataContainer}>
         <View style={styles.headerRow}>
           <Text>{this.props.field}</Text>
         </View>
         <View style={styles.dataRow}>
-          <Text>{this.props.data[this.props.field]}</Text>
+          <Text>{value}</Text>
         </View>
       </View>
     );

@@ -15,13 +15,6 @@ class App extends Component {
   componentWillMount() {
     console.log('App will mount');
     Odnoklassniki.initialize('1247442432', 'CBAHHLFLEBABABABA');
-    /*
-    Odnoklassniki.isLoggedIn()            
-      .then(resp => {
-          console.log('Is logged in: ', resp);
-          this.setState({auth: resp});
-      })
-      */
   }
 
   render() {
