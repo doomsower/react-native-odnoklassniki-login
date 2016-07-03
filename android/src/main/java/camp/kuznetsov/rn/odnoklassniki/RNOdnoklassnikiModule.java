@@ -2,7 +2,6 @@ package camp.kuznetsov.rn.odnoklassniki;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.facebook.react.bridge.ActivityEventListener;
@@ -18,7 +17,6 @@ import org.json.JSONObject;
 
 import ru.ok.android.sdk.Odnoklassniki;
 import ru.ok.android.sdk.OkListener;
-import ru.ok.android.sdk.OkRequestMode;
 import ru.ok.android.sdk.Shared;
 import ru.ok.android.sdk.util.OkAuthType;
 

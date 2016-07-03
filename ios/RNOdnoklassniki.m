@@ -8,6 +8,9 @@
 #define DMLog(...) do { } while (0)
 #endif
 
+NSString *const E_LOGIN_ERROR = @"E_LOGIN_ERROR";
+NSString *const E_GET_USER_FAILED = @"E_GET_USER_FAILED";
+
 @implementation RNOdnoklassniki {
   RCTPromiseResolveBlock loginResolver;
   RCTPromiseRejectBlock loginRejector;
@@ -42,11 +45,11 @@ RCT_EXPORT_METHOD(login: (NSArray *) scope resolver: (RCTPromiseResolveBlock) re
       self->loginResolver([self getResponse:data]);
     } error:^(NSError *error) {
       DMLog(@"Error in users.getCurrentUser: %@", [error localizedDescription]);
-      self->loginRejector(RCTErrorUnspecified, nil, RCTErrorWithMessage([error localizedDescription]));
+      self->loginRejector(RCTErrorUnspecified, E_GET_USER_FAILED, RCTErrorWithMessage([error localizedDescription]));
     }];
   } error:^(NSError *error) {
     DMLog(@"Error during auth: %@", [error localizedDescription]);
-    self->loginRejector(RCTErrorUnspecified, nil, RCTErrorWithMessage([error localizedDescription]));
+    self->loginRejector(RCTErrorUnspecified, E_LOGIN_ERROR, RCTErrorWithMessage([error localizedDescription]));
   }];
 };
 
