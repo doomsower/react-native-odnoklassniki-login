@@ -1,0 +1,19 @@
+{
+  "name": "example",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start"
+  },
+  "dependencies": {
+    "apsl-react-native-button": "^2.5.0",
+    "react": "15.2.0",
+    "react-native": "0.28.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^6.1.0",
+    "eslint": "^3.0.0",
+    "eslint-plugin-react": "^5.2.2",
+    "eslint-plugin-react-native": "^1.1.0"
+  }
+}

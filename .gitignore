@@ -35,3 +35,12 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+
+
+# Intellij idea
+*.iml
+.idea
+/android/build/
+/example/.vscode/
+/example/android/build/
+/example/android/app/build/
