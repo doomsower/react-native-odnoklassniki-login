@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { View, StyleSheet } from 'react-native';
 import Button from 'apsl-react-native-button';
-import Odnoklassniki, { Scopes } from './Odnoklassniki';
+import Odnoklassniki, { Scopes } from 'react-native-odnoklassniki-login';
 
 class LogInScreen extends Component {
   static propTypes = {

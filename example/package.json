@@ -8,7 +8,8 @@
   "dependencies": {
     "apsl-react-native-button": "^2.5.0",
     "react": "15.2.0",
-    "react-native": "0.28.0"
+    "react-native": "0.28.0",
+    "react-native-odnoklassniki-login": "../"
   },
   "devDependencies": {
     "babel-eslint": "^6.1.0",

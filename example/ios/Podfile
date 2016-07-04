@@ -13,7 +13,7 @@ target 'example' do
     'RCTWebSocket'
   ]
 
-  pod 'react-native-odnoklassniki-login', :path => '../../'
+  pod 'react-native-odnoklassniki-login', :path => '../node_modules/react-native-odnoklassniki-login'
 
   target 'exampleTests' do
     inherit! :search_paths

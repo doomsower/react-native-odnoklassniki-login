@@ -1,0 +1,29 @@
+{
+  "name": "react-native-odnoklassniki-login",
+  "version": "0.1.0",
+  "description": "React Native wrapper for Odnoklassniki SDK Login",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/doomsower/react-native-odnoklassniki-login.git"
+  },
+  "keywords": [
+    "react",
+    "react-native",
+    "ok",
+    "odnoklassniki",
+    "sdk",
+    "login",
+    "android",
+    "ios"
+  ],
+  "author": "Konstantin Kuznetsov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/doomsower/react-native-odnoklassniki-login/issues"
+  },
+  "homepage": "https://github.com/doomsower/react-native-odnoklassniki-login#readme"
+}

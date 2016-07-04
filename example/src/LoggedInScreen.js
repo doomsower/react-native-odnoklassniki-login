@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Button from 'apsl-react-native-button';
-import Odnoklassniki from './Odnoklassniki';
+import Odnoklassniki from 'react-native-odnoklassniki-login';
 
 export default class LoggedInScreen extends Component {
   static propTypes = {

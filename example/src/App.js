@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import LoggedInScreen from './LoggedInScreen';
 import LogInScreen from './LogInScreen';
-import Odnoklassniki from './Odnoklassniki';
+import Odnoklassniki from 'react-native-odnoklassniki-login';
 
 class App extends Component {
 
